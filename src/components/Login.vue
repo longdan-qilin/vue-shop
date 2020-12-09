@@ -10,8 +10,8 @@
       <el-form
         label-width="0"
         class="login_form"
-        :model="loginForm"
-        :rules="loginFormRules"
+        v-bind:model="loginForm"
+        v-bind:rules="loginFormRules"
         ref="loginFormRef"
       >
         <!-- 用户名 -->
@@ -47,55 +47,55 @@ export default {
     return {
       // 这是登录表单的数据绑定对象
       loginForm: {
-        username: "admin",
-        password: "123456",
+        username: 'admin',
+        password: '123456',
       },
       // 定义验证规则对象
       loginFormRules: {
         username: [
-          { required: true, message: "请输入登录名称", trigger: "blur" },
+          { required: true, message: '请输入登录名称', trigger: 'blur' },
           {
             min: 3,
             max: 10,
-            message: "长度在 3 到 10 个字符",
-            trigger: "blur",
+            message: '长度在 3 到 10 个字符',
+            trigger: 'blur',
           },
         ],
         password: [
-          { required: true, message: "请输入登录密码", trigger: "blur" },
+          { required: true, message: '请输入登录密码', trigger: 'blur' },
           {
             min: 6,
             max: 15,
-            message: "长度在 6 到 15 个字符",
-            trigger: "blur",
+            message: '长度在 6 到 15 个字符',
+            trigger: 'blur',
           },
         ],
       },
-    };
+    }
   },
   methods: {
     resetloginForm() {
-      this.$refs.loginFormRef.resetFields();
+      this.$refs.loginFormRef.resetFields()
     },
     login() {
       // 点击登录的时候先调用 validate 方法验证表单内容是否有误
-      this.$refs.loginFormRef.validate(async valid => {
+      this.$refs.loginFormRef.validate(async (valid) => {
         //如果valid参数为true则验证通过
-        if (!valid) return;
+        if (!valid) return
         //发送请求进行登录
-        const {data : res} = await this.$http.post('login', this.loginForm)
-        if(res.meta.status !== 200) {
-          return this.$message.error('登录失败！' + res.meta.msg)
+        const { data: res } = await this.$http.post('login', this.loginForm)
+        if (res.meta.status !== 200) {
+          return this.$message.error('登录失败！' + res.meta.message)
         }
         this.$message.success('登陆成功！')
         // 保存token
-        window.sessionStorage.setItem('token',res.data.token)
+        window.sessionStorage.setItem('token', res.data.token)
         // 跳转页面home
         this.$router.push('/home')
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="less" scoped>
